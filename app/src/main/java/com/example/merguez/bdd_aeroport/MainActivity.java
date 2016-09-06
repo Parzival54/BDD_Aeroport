@@ -13,19 +13,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            AeroportBDD aeroportBDD = new AeroportBDD(this);
+        //Création d'une instance de ma classe AeroportsBDD
+        AeroportsBDD aeroportsBDD = new AeroportsBDD(this);
 
-            Aeroport aeroport = new Aeroport("LAX", "Los Angeles International Airport");
+        //On ouvre la base de données pour écrire dedans
+        aeroportsBDD.open();
+        aeroportsBDD.removeAll();
 
-            aeroportBDD.open();
+        //Création d'un aéroport
+        Aeroport aeroport = new Aeroport("gerg", "grgerhfghfg");
 
-            aeroportBDD.insertAeroport(aeroport);
+        //On insère l'aéroport que l'on vient de créer
+        aeroportsBDD.insertAeroport(aeroport);
 
-            TextView AeroTvAfficherBDD = (TextView) findViewById(R.id.AeroTvAfficherBDD);
+        Aeroport aeroportFromBdd = aeroportsBDD.getAeroportWithNom(aeroport.getNom());
+        TextView AeroTvAfficherBDD = (TextView) findViewById(R.id.AeroTvAfficherBDD);
+        AeroTvAfficherBDD.setText("" + aeroportFromBdd.toString());
 
-            AeroTvAfficherBDD.setText("" + aeroport.toString());
-
-            aeroportBDD.close();
+        aeroportsBDD.close();
 
     }
 }
